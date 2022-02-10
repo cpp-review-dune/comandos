@@ -22,9 +22,13 @@ RUN ln -s /usr/share/zoneinfo/America/Lima /etc/localtime && \
 
 USER gitpod
 
+ARG PACKAGES="\
+  asciinema \
+  "
+
 COPY --from=build /home/builder/.cache/yay/*/*.pkg.tar.zst /tmp/
 
-RUN sudo pacman --noconfirm -Syyuq && \
+RUN sudo pacman --noconfirm -Syyuq ${PACKAGES} && \
   sudo pacman --noconfirm -U /tmp/*.pkg.tar.zst && \
   sudo pacman -Scc <<< Y <<< Y
 
